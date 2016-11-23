@@ -500,7 +500,8 @@ public class VideoModule extends BaseModule<VideoUI> implements
         }
 
         // Initialize location service.
-        boolean recordLocation = RecordLocationPreference.get(mPreferences);
+        boolean recordLocation = RecordLocationPreference.get(mPreferences,
+                CameraSettings.KEY_RECORD_LOCATION);
         mLocationManager.recordLocation(recordLocation);
 
         mUI.initializeFirstTime();
@@ -2971,7 +2972,8 @@ public class VideoModule extends BaseModule<VideoUI> implements
 
         synchronized (mCameraDevice) {
 
-            boolean recordLocation = RecordLocationPreference.get(mPreferences);
+            boolean recordLocation = RecordLocationPreference.get(mPreferences,
+                    CameraSettings.KEY_RECORD_LOCATION);
             mLocationManager.recordLocation(recordLocation);
 
             readVideoPreferences();
