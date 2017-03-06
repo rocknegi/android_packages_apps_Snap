@@ -30,7 +30,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
-import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.location.Location;
 import android.net.Uri;
@@ -54,6 +53,7 @@ import com.android.camera.ui.RotateTextToast;
 import com.android.camera.util.CameraUtil;
 import com.android.camera.util.UsageStatistics;
 
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 
 import java.io.ByteArrayOutputStream;

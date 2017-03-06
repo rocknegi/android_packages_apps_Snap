@@ -30,9 +30,7 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
-import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -83,6 +81,10 @@ import com.android.camera.util.ApiHelper;
 import com.android.camera.util.CameraUtil;
 import com.android.camera.util.GcamHelper;
 import com.android.camera.util.UsageStatistics;
+import org.codeaurora.camera.Camera;
+import org.codeaurora.camera.Camera.CameraDataCallback;
+import org.codeaurora.camera.Camera.CameraMetaDataCallback;
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 
 import android.widget.EditText;
@@ -1132,7 +1134,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
         }
     }
     private final class StatsCallback
-           implements android.hardware.Camera.CameraDataCallback {
+           implements CameraDataCallback {
             @Override
         public void onCameraData(final int [] data, android.hardware.Camera camera) {
             if (!mHistogramEnabled || !mFirstTimeInitialized){
@@ -1148,7 +1150,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
     }
 
     private final class MetaDataCallback
-           implements android.hardware.Camera.CameraMetaDataCallback{
+           implements CameraMetaDataCallback{
         @Override
         public void onCameraMetaData (byte[] data, android.hardware.Camera camera) {
             int metadata[] = new int[3];
@@ -1320,7 +1322,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
 
             mReceivedSnapNum = mReceivedSnapNum + 1;
             mJpegPictureCallbackTime = System.currentTimeMillis();
-            if(mSnapshotMode == CameraInfo.CAMERA_SUPPORT_MODE_ZSL) {
+            if(mSnapshotMode == Camera.CAMERA_SUPPORT_MODE_ZSL) {
                 Log.v(TAG, "JpegPictureCallback : in zslmode");
                 mParameters = mCameraDevice.getParameters();
                 mBurstSnapNum = CameraUtil.getNumSnapsPerShutter(mParameters);
@@ -1351,7 +1353,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
             boolean needRestartPreview = !mIsImageCaptureIntent
                     && !mPreviewRestartSupport
                     && (mCameraState != LONGSHOT)
-                    && (mSnapshotMode != CameraInfo.CAMERA_SUPPORT_MODE_ZSL)
+                    && (mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_ZSL)
                     && ((mReceivedSnapNum == mBurstSnapNum) && (mCameraState != LONGSHOT));
 
             needRestartPreview |= (isLongshotDone() && !mFocusManager.isZslEnabled());
@@ -1535,7 +1537,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
                     }
 
                     if (mHistogramEnabled &&
-                            (mSnapshotMode == CameraInfo.CAMERA_SUPPORT_MODE_ZSL)) {
+                            (mSnapshotMode == Camera.CAMERA_SUPPORT_MODE_ZSL)) {
                         mActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -1543,7 +1545,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
                             }
                         });
                     }
-                if (mSnapshotMode == CameraInfo.CAMERA_SUPPORT_MODE_ZSL &&
+                if (mSnapshotMode == Camera.CAMERA_SUPPORT_MODE_ZSL &&
                         mCameraState != LONGSHOT &&
                         mReceivedSnapNum == mBurstSnapNum &&
                         !mIsImageCaptureIntent) {
@@ -1672,10 +1674,10 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
         mJpegImageData = null;
 
         final boolean animateBefore = (mSceneMode == CameraUtil.SCENE_MODE_HDR) ||
-                (mSnapshotMode == CameraInfo.CAMERA_SUPPORT_MODE_ZSL);
+                (mSnapshotMode == Camera.CAMERA_SUPPORT_MODE_ZSL);
 
         if(mHistogramEnabled) {
-            if (mSnapshotMode != CameraInfo.CAMERA_SUPPORT_MODE_ZSL) {
+            if (mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_ZSL) {
                 mHistogramEnabled = false;
                 mCameraDevice.setHistogramMode(null);
             }
@@ -1798,7 +1800,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
 
         mNamedImages.nameNewImage(mCaptureStartTime, mRefocus);
 
-        if (mSnapshotMode != CameraInfo.CAMERA_SUPPORT_MODE_ZSL) {
+        if (mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_ZSL) {
             mFaceDetectionStarted = false;
         }
         UsageStatistics.onEvent(UsageStatistics.COMPONENT_CAMERA,
@@ -2134,7 +2136,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
                 mCameraId, CameraHolder.instance().getCameraInfo());
         mPreferenceGroup = settings.getPreferenceGroup(R.xml.camera_preferences);
 
-        int numOfCams = Camera.getNumberOfCameras();
+        int numOfCams = android.hardware.Camera.getNumberOfCameras();
 
         Log.e(TAG,"loadCameraPreferences() updating camera_id pref");
 
@@ -2357,7 +2359,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
 
          //Need to disable focus for ZSL mode
         if (mFocusManager != null) {
-            if (mSnapshotMode == CameraInfo.CAMERA_SUPPORT_MODE_ZSL) {
+            if (mSnapshotMode == Camera.CAMERA_SUPPORT_MODE_ZSL) {
                 mFocusManager.setZslEnable(true);
             } else {
                 mFocusManager.setZslEnable(false);
@@ -3056,14 +3058,14 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
         mRestartPreview = false;
         String zsl = mPreferences.getString(CameraSettings.KEY_ZSL,
                                   mActivity.getString(R.string.pref_camera_zsl_default));
-        if(zsl.equals("on") && mSnapshotMode != CameraInfo.CAMERA_SUPPORT_MODE_ZSL
+        if(zsl.equals("on") && mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_ZSL
            && mCameraState != PREVIEW_STOPPED) {
             //Switch on ZSL Camera mode
             Log.v(TAG, "Switching to ZSL Camera Mode. Restart Preview");
             mRestartPreview = true;
             return mRestartPreview;
         }
-        if(zsl.equals("off") && mSnapshotMode != CameraInfo.CAMERA_SUPPORT_MODE_NONZSL
+        if(zsl.equals("off") && mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_NONZSL
                  && mCameraState != PREVIEW_STOPPED) {
             //Switch on Normal Camera mode
             Log.v(TAG, "Switching to Normal Camera Mode. Restart Preview");
@@ -3552,7 +3554,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
         mParameters.setZSLMode(zsl);
         if(zsl.equals("on")) {
             //Switch on ZSL Camera mode
-            mSnapshotMode = CameraInfo.CAMERA_SUPPORT_MODE_ZSL;
+            mSnapshotMode = Camera.CAMERA_SUPPORT_MODE_ZSL;
             mParameters.setCameraMode(1);
             mFocusManager.setZslEnable(true);
 
@@ -3588,7 +3590,7 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
                 });
             }
         } else if(zsl.equals("off")) {
-            mSnapshotMode = CameraInfo.CAMERA_SUPPORT_MODE_NONZSL;
+            mSnapshotMode = Camera.CAMERA_SUPPORT_MODE_NONZSL;
             mParameters.setCameraMode(0);
             mFocusManager.setZslEnable(false);
             if ((mManual3AEnabled & MANUAL_FOCUS) == 0) {

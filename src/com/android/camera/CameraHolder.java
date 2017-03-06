@@ -21,7 +21,6 @@ import static com.android.camera.util.CameraUtil.Assert;
 
 import android.content.Context;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -32,6 +31,7 @@ import org.codeaurora.snapcam.R;
 
 import com.android.camera.app.CameraApp;
 import com.android.camera.CameraManager.CameraProxy;
+import org.codeaurora.camera.Camera.Parameters;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -228,7 +228,8 @@ public class CameraHolder {
                 return null;
             }
             mCameraId = cameraId;
-            mParameters = mCameraDevice.getCamera().getParameters();
+            android.hardware.Camera camera = mCameraDevice.getCamera();
+            mParameters = new Parameters(camera, camera.getParameters());
 
             // Manufacturer specific key values
             String manufacturerKeyValues = context.getResources().getString(R.string.manufacturer_key_values);

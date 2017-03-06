@@ -1969,11 +1969,11 @@ public class CameraActivity extends Activity
             mPowerShutter = val.equals(CameraSettings.VALUE_ON);
         }
         if (mPowerShutter && mInCameraApp) {
-            getWindow().addPrivateFlags(
-                    WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
+            //getWindow().addPrivateFlags(
+            //        WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
         } else {
-            getWindow().clearPrivateFlags(
-                    WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
+            //getWindow().clearPrivateFlags(
+            //        WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
         }
     }
 

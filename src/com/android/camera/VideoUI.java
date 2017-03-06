@@ -23,7 +23,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
-import android.hardware.Camera.Parameters;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -57,6 +56,7 @@ import com.android.camera.ui.ZoomRenderer;
 import com.android.camera.ui.focus.FocusRing;
 import com.android.camera.util.CameraUtil;
 
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 
 import java.util.List;
@@ -512,7 +512,7 @@ public class VideoUI extends BaseUI implements PieRenderer.PieListener,
     }
 
     public void onCameraOpened(PreferenceGroup prefGroup, ComboPreferences prefs,
-                               Camera.Parameters params, OnPreferenceChangedListener listener) {
+                               Parameters params, OnPreferenceChangedListener listener) {
         if (mPieRenderer == null) {
             mPieRenderer = new PieRenderer(mActivity);
             // mVideoMenu = new VideoMenu(mActivity, this, mPieRenderer);

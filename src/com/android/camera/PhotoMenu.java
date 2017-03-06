@@ -28,7 +28,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.hardware.Camera.Parameters;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
@@ -60,6 +59,7 @@ import com.android.camera.ui.ModuleSwitcher;
 import com.android.camera.ui.RotateLayout;
 import com.android.camera.ui.RotateImageView;
 import com.android.camera.ui.RotateTextToast;
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 import android.widget.HorizontalScrollView;
 import android.view.ViewGroup;
@@ -181,7 +181,7 @@ public class PhotoMenu extends MenuController
                 CameraSettings.KEY_JPEG_QUALITY,
                 CameraSettings.KEY_TIMER,
                 CameraSettings.KEY_CAMERA_SAVEPATH,
-                CameraSettings.KEY_LONGSHOT,
+                //CameraSettings.KEY_LONGSHOT,
                 CameraSettings.KEY_FACE_DETECTION,
                 CameraSettings.KEY_ISO,
                 CameraSettings.KEY_EXPOSURE,
@@ -192,7 +192,7 @@ public class PhotoMenu extends MenuController
                 CameraSettings.KEY_REDEYE_REDUCTION,
                 CameraSettings.KEY_SELFIE_MIRROR,
                 CameraSettings.KEY_SHUTTER_SOUND,
-                CameraSettings.KEY_POWER_SHUTTER,
+                //CameraSettings.KEY_POWER_SHUTTER,
                 CameraSettings.KEY_MAX_BRIGHTNESS,
                 CameraSettings.KEY_SATURATION,
                 CameraSettings.KEY_CONTRAST,
@@ -210,7 +210,7 @@ public class PhotoMenu extends MenuController
                 CameraSettings.KEY_JPEG_QUALITY,
                 CameraSettings.KEY_TIMER,
                 CameraSettings.KEY_CAMERA_SAVEPATH,
-                CameraSettings.KEY_LONGSHOT,
+                //CameraSettings.KEY_LONGSHOT,
                 CameraSettings.KEY_FACE_DETECTION,
                 CameraSettings.KEY_ISO,
                 CameraSettings.KEY_EXPOSURE,
@@ -220,7 +220,7 @@ public class PhotoMenu extends MenuController
                 CameraSettings.KEY_FOCUS_TIME,
                 CameraSettings.KEY_SHUTTER_SPEED,
                 CameraSettings.KEY_REDEYE_REDUCTION,
-                CameraSettings.KEY_POWER_SHUTTER,
+                //CameraSettings.KEY_POWER_SHUTTER,
                 CameraSettings.KEY_MAX_BRIGHTNESS,
                 CameraSettings.KEY_SATURATION,
                 CameraSettings.KEY_CONTRAST,
@@ -228,12 +228,12 @@ public class PhotoMenu extends MenuController
                 CameraSettings.KEY_AUTOEXPOSURE,
                 CameraSettings.KEY_ANTIBANDING,
                 CameraSettings.KEY_DENOISE,
-                CameraSettings.KEY_AUTO_HDR,
+                //CameraSettings.KEY_AUTO_HDR,
                 CameraSettings.KEY_HDR_MODE,
                 CameraSettings.KEY_HDR_NEED_1X,
                 CameraSettings.KEY_CDS_MODE,
                 CameraSettings.KEY_TNR_MODE,
-                CameraSettings.KEY_HISTOGRAM,
+                //CameraSettings.KEY_HISTOGRAM,
                 CameraSettings.KEY_ZSL,
                 CameraSettings.KEY_TIMER_SOUND_EFFECTS,
                 CameraSettings.KEY_FACE_RECOGNITION,

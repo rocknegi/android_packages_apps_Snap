@@ -33,7 +33,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -66,6 +65,7 @@ import com.android.camera.CameraSettings;
 import com.android.camera.ui.RotateTextToast;
 import com.android.camera.util.IntentHelper;
 
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 
 import java.io.Closeable;
@@ -167,7 +167,7 @@ public class CameraUtil {
     }
 
     public static boolean hasCameraKey() {
-        return (sDeviceKeysPresent & KEY_MASK_CAMERA) != 0;
+        return false;
     }
 
     public static boolean isMeteringAreaSupported(Parameters params) {
@@ -203,9 +203,6 @@ public class CameraUtil {
     private static float sPixelDensity = 1;
     private static ImageFileNamer sImageFileNamer;
 
-    // Get available hardware keys
-    private static int sDeviceKeysPresent;
-
     private CameraUtil() {
     }
 
@@ -217,8 +214,6 @@ public class CameraUtil {
         sPixelDensity = metrics.density;
         sImageFileNamer = new ImageFileNamer(
                 context.getString(R.string.image_file_name_format));
-        sDeviceKeysPresent = context.getResources().getInteger(
-                com.android.internal.R.integer.config_deviceHardwareKeys);
     }
 
     public static int dpToPixel(int dp) {

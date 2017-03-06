@@ -33,7 +33,6 @@ import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.location.Location;
 import android.media.AudioManager;
@@ -73,6 +72,7 @@ import com.android.camera.util.AccessibilityUtils;
 import com.android.camera.util.ApiHelper;
 import com.android.camera.util.CameraUtil;
 import com.android.camera.util.UsageStatistics;
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 import com.android.camera.PhotoModule;
 import java.io.File;
@@ -1067,8 +1067,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
 
     public boolean is4KEnabled() {
        if (mProfile.quality == CamcorderProfile.QUALITY_2160P ||
-           mProfile.quality == CamcorderProfile.QUALITY_TIME_LAPSE_2160P ||
-           mProfile.quality == CamcorderProfile.QUALITY_4KDCI ) {
+           mProfile.quality == CamcorderProfile.QUALITY_TIME_LAPSE_2160P ) {
            return true;
        } else {
            return false;
@@ -2946,8 +2945,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
             String videoQuality = pref.getValue();
             if (CameraSettings.VIDEO_QUALITY_TABLE.containsKey(videoQuality)) {
                 int quality = CameraSettings.VIDEO_QUALITY_TABLE.get(videoQuality);
-                if ((quality == CamcorderProfile.QUALITY_2160P
-                        || quality == CamcorderProfile.QUALITY_4KDCI)
+                if ((quality == CamcorderProfile.QUALITY_2160P)
                         && mPreferences != null) {
                     String disDisable = mActivity.getString(R.string.pref_camera_dis_value_disable);
                     if (!disDisable.equals(

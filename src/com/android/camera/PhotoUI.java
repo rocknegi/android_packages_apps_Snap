@@ -70,6 +70,7 @@ import com.android.camera.ui.ZoomRenderer;
 import com.android.camera.ui.focus.FocusRing;
 import com.android.camera.util.CameraUtil;
 
+import org.codeaurora.camera.Camera.Parameters;
 import org.codeaurora.snapcam.R;
 
 import java.util.List;
@@ -445,7 +446,7 @@ public class PhotoUI extends BaseUI implements PieListener,
     }
 
     public void onCameraOpened(PreferenceGroup prefGroup, ComboPreferences prefs,
-            Camera.Parameters params, OnPreferenceChangedListener listener, MakeupLevelListener makeupListener) {
+            Parameters params, OnPreferenceChangedListener listener, MakeupLevelListener makeupListener) {
         if (mPieRenderer == null) {
             mPieRenderer = new PieRenderer(mActivity);
             mPieRenderer.setPieListener(this);
@@ -585,7 +586,7 @@ public class PhotoUI extends BaseUI implements PieListener,
     }
 
     // called from onResume every other time
-    public void initializeSecondTime(Camera.Parameters params) {
+    public void initializeSecondTime(Parameters params) {
         initializeZoom(params);
         if (mController.isImageCaptureIntent()) {
             hidePostCaptureAlert();
@@ -597,7 +598,7 @@ public class PhotoUI extends BaseUI implements PieListener,
         muteButton.setVisibility(View.GONE);
     }
 
-    public void initializeZoom(Camera.Parameters params) {
+    public void initializeZoom(Parameters params) {
         if ((params == null) || !params.isZoomSupported()
                 || (mZoomRenderer == null)) return;
         mZoomMax = params.getMaxZoom();

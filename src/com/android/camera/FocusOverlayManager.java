@@ -19,7 +19,6 @@ package com.android.camera;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera.Area;
-import android.hardware.Camera.Parameters;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -30,6 +29,7 @@ import com.android.camera.ui.focus.FocusRing;
 import com.android.camera.ui.motion.LinearScale;
 import com.android.camera.util.CameraUtil;
 import com.android.camera.util.UsageStatistics;
+import org.codeaurora.camera.Camera.Parameters;
 
 import java.util.ArrayList;
 import java.util.List;

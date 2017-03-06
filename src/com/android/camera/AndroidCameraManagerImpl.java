@@ -30,7 +30,6 @@ import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.ErrorCallback;
 import android.hardware.Camera.FaceDetectionListener;
 import android.hardware.Camera.OnZoomChangeListener;
-import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.ShutterCallback;
@@ -41,14 +40,15 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.hardware.Camera.CameraDataCallback;
-import android.hardware.Camera.CameraMetaDataCallback;
 import com.android.camera.util.ApiHelper;
 import android.os.ConditionVariable;
 import java.lang.reflect.Method;
 
 import com.android.camera.app.CameraApp;
 
+import org.codeaurora.camera.Camera.Parameters;
+import org.codeaurora.camera.Camera.CameraDataCallback;
+import org.codeaurora.camera.Camera.CameraMetaDataCallback;
 import org.codeaurora.snapcam.R;
 
 /**
@@ -349,13 +349,13 @@ class AndroidCameraManagerImpl implements CameraManager {
 
                     case SET_PARAMETERS:
                         mParametersIsDirty = true;
-                        mCamera.setParameters((Parameters) msg.obj);
+                        mCamera.setParameters(((Parameters) msg.obj).getParameters());
                         mSig.open();
                         break;
 
                     case GET_PARAMETERS:
                         if (mParametersIsDirty) {
-                            mParameters = mCamera.getParameters();
+                            mParameters = new Parameters(mCamera, mCamera.getParameters());
                             mParametersIsDirty = false;
                         }
                         return;
@@ -377,23 +377,23 @@ class AndroidCameraManagerImpl implements CameraManager {
                         return;
 
                     case SET_HISTOGRAM_MODE:
-                        mCamera.setHistogramMode((CameraDataCallback) msg.obj);
+                        //mCamera.setHistogramMode((CameraDataCallback) msg.obj);
                         break;
 
                     case SEND_HISTOGRAM_DATA:
-                        mCamera.sendHistogramData();
+                        //mCamera.sendHistogramData();
                         break;
 
                     case SET_LONGSHOT:
-                        mCamera.setLongshot((Boolean) msg.obj);
+                        //mCamera.setLongshot((Boolean) msg.obj);
                         break;
 
                     case STOP_LONGSHOT:
-                        mCamera.stopLongshot();
+                        //mCamera.stopLongshot();
                         break;
 
                     case SET_AUTO_HDR_MODE:
-                        mCamera.setMetadataCb((CameraMetaDataCallback) msg.obj);
+                        //mCamera.setMetadataCb((CameraMetaDataCallback) msg.obj);
                         break;
 
                     default:
