@@ -65,6 +65,8 @@ class AndroidCameraManagerImpl implements CameraManager {
     private boolean mParametersIsDirty;
     private IOException mReconnectIOException;
 
+    private CameraMetaDataCallback mMetaDataCallback = null;
+
     /* Messages used in CameraHandler. */
     // Camera initialization/finalization
     private static final int OPEN_CAMERA = 1;
@@ -394,6 +396,17 @@ class AndroidCameraManagerImpl implements CameraManager {
 
                     case SET_AUTO_HDR_MODE:
                         //mCamera.setMetadataCb((CameraMetaDataCallback) msg.obj);
+                        byte data[] = { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                        CameraMetaDataCallback cb = (CameraMetaDataCallback) msg.obj;
+                        if (cb != null) {
+                            data[8] = 1;
+                            mMetaDataCallback = cb;
+                            mMetaDataCallback.onCameraMetaData(data, mCamera);
+                        } else {
+                            if (mMetaDataCallback != null)
+                                mMetaDataCallback.onCameraMetaData(data, mCamera);
+                            mMetaDataCallback = null;
+                        }
                         break;
 
                     default:
