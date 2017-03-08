@@ -3165,10 +3165,6 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
     /** This can run on a background thread, so don't do UI updates here.*/
     private void qcomUpdateCameraParametersPreference() {
         //qcom Related Parameter update
-        String longshot_enable = mPreferences.getString(
-                CameraSettings.KEY_LONGSHOT,
-                mActivity.getString(R.string.pref_camera_longshot_default));
-        mParameters.set("long-shot", longshot_enable);
         String optizoomOn = mActivity.getString(R.string
                 .pref_camera_advanced_feature_value_optizoom_on);
 

@@ -2203,6 +2203,8 @@ public class Camera {
         private static final String KEY_QC_MAX_WB_CCT = "max-wb-cct";
         private static final String KEY_QC_AUTO_HDR_ENABLE = "auto-hdr-enable";
         private static final String KEY_QC_VIDEO_ROTATION = "video-rotation";
+        private static final String KEY_QC_LONG_SHOT = "long-shot";
+        private static final String KEY_QC_LONGSHOT_SUPPORTED = "longshot-supported";
     
         /** @hide
         * KEY_QC_AE_BRACKET_HDR
@@ -2449,6 +2451,16 @@ public class Camera {
         **/
         public static final String VIDEO_ROTATION_270 = "270";
     
+        // Values for Longshot.
+        /** @hide
+        * Longshot off
+        **/
+        public static final String LONG_SHOT_OFF = "off";
+        /** @hide
+        * Longshot on
+        **/
+        public static final String LONG_SHOT_ON = "on";
+
         /* ### QC ADDED PARAMETER APIS*/
          /** @hide
          * Gets the supported preview sizes in high frame rate recording mode.
@@ -3349,6 +3361,58 @@ public class Camera {
             return split(str);
          }
     
+        /**
+         * <p>Enables and disables LongShot. Use
+         * {@link #isLongShotSupported} to determine if calling this
+         * method is valid.</p>
+         *
+         * @param toggle Set to true to enable LongShot, and false to
+         * disable LongShot.
+         * @see #isLongShotSupported()
+         * @see #getLongShot()
+         */
+        public void setLongShot(boolean toggle) {
+            set(KEY_QC_LONG_SHOT, toggle ? LONG_SHOT_ON : LONG_SHOT_OFF);
+        }
+
+        /**
+         * Get the current state of LongShot. See
+         * {@link #setLongShot} for details of LongShot.
+         *
+         * @return true if LongShot is enabled
+         * @see #isLongShotSupported()
+         * @see #setLongShot(boolean)
+         */
+        public boolean getLongShot() {
+            String str = get(KEY_QC_LONG_SHOT);
+            return LONG_SHOT_ON.equals(str);
+        }
+
+        /**
+         * Removes LongShot from the parameters. See
+         * {@link #setLongShot} for details of LongShot.
+
+         * @see #isLongShotSupported()
+         * @see #setLongShot(boolean)
+         * @see #getLongShot()
+         */
+        public void removeLongShot() {
+            remove(KEY_QC_LONG_SHOT);
+        }
+
+        /**
+         * Returns true if LongShot is supported. See
+         * {@link #setLongShot} for details of LongShot.
+         *
+         * @return true if LongShot is supported
+         * @see #setLongShot(boolean)
+         * @see #getLongShot()
+         */
+        public boolean isLongShotSupported() {
+            String str = get(KEY_QC_LONGSHOT_SUPPORTED);
+            return TRUE.equals(str);
+        }
+
          // Splits a comma delimited string to an ArrayList of Coordinate.
          // Return null if the passing string is null or the Coordinate is 0.
          private ArrayList<Coordinate> splitCoordinate(String str) {

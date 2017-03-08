@@ -350,8 +350,10 @@ class AndroidCameraManagerImpl implements CameraManager {
                         return;
 
                     case SET_PARAMETERS:
+                        Parameters parameters = (Parameters) msg.obj;
+                        parameters.removeLongShot();
                         mParametersIsDirty = true;
-                        mCamera.setParameters(((Parameters) msg.obj).getParameters());
+                        mCamera.setParameters(parameters.getParameters());
                         mSig.open();
                         break;
 
@@ -388,10 +390,24 @@ class AndroidCameraManagerImpl implements CameraManager {
 
                     case SET_LONGSHOT:
                         //mCamera.setLongshot((Boolean) msg.obj);
+                        if (mParametersIsDirty) {
+                            mParameters = new Parameters(mCamera, mCamera.getParameters());
+                            mParametersIsDirty = false;
+                        }
+                        mParameters.setLongShot((Boolean) msg.obj);
+                        mCamera.setParameters(mParameters.getParameters());
+                        mParametersIsDirty = true;
                         break;
 
                     case STOP_LONGSHOT:
                         //mCamera.stopLongshot();
+                        if (mParametersIsDirty) {
+                            mParameters = new Parameters(mCamera, mCamera.getParameters());
+                            mParametersIsDirty = false;
+                        }
+                        mParameters.setLongShot(false);
+                        mCamera.setParameters(mParameters.getParameters());
+                        mParametersIsDirty = true;
                         break;
 
                     case SET_AUTO_HDR_MODE:
