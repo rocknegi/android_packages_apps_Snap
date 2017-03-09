@@ -133,7 +133,8 @@ public class CaptureUI extends BaseUI implements PreviewGestures.SingleTapListen
             SettingsManager.KEY_VIDEO_ENCODER,
             SettingsManager.KEY_AUDIO_ENCODER,
             SettingsManager.KEY_VIDEO_ROTATION,
-            SettingsManager.KEY_AUTO_VIDEOSNAP_SIZE
+            SettingsManager.KEY_AUTO_VIDEOSNAP_SIZE,
+            SettingsManager.KEY_CAMERA2
     };
     private final FocusRing mFocusRing;
     private CaptureModule mModule;
