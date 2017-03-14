@@ -1966,7 +1966,7 @@ public class CameraActivity extends Activity
         String val = prefs.getString(CameraSettings.KEY_POWER_SHUTTER,
                 getResources().getString(R.string.pref_camera_power_shutter_default));
         if (!CameraUtil.hasCameraKey()) {
-            mPowerShutter = val.equals(CameraSettings.VALUE_ON);
+            mPowerShutter = true;//val.equals(CameraSettings.VALUE_ON);
         }
         if (mPowerShutter && mInCameraApp) {
             //getWindow().addPrivateFlags(
