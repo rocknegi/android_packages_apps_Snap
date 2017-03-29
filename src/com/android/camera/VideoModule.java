@@ -1823,7 +1823,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
 
             // Profiles advertizes bitrate corresponding to published framerate.
             // In case framerate is different, scale the bitrate
-            int scaledBitrate = mProfile.videoBitRate * (targetFrameRate / mProfile.videoFrameRate);
+            int scaledBitrate = Math.round((float)mProfile.videoBitRate * targetFrameRate / mProfile.videoFrameRate);
             Log.i(TAG, "Scaled Video bitrate : " + scaledBitrate);
             mMediaRecorder.setVideoEncodingBitRate(scaledBitrate);
         }
