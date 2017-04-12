@@ -1350,51 +1350,6 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
                 mCameraDevice.setLongshot(false);
             }
 
-            boolean needRestartPreview = !mIsImageCaptureIntent
-                    && !mPreviewRestartSupport
-                    && (mCameraState != LONGSHOT)
-                    && (mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_ZSL)
-                    && ((mReceivedSnapNum == mBurstSnapNum) && (mCameraState != LONGSHOT));
-
-            needRestartPreview |= (isLongshotDone() && !mFocusManager.isZslEnabled());
-            needRestartPreview |= mLgeHdrMode && (mCameraState != LONGSHOT);
-
-            boolean backCameraRestartPreviewOnPictureTaken = false;
-            boolean frontCameraRestartPreviewOnPictureTaken = false;
-            backCameraRestartPreviewOnPictureTaken =
-                    mActivity.getResources().getBoolean(R.bool.back_camera_restart_preview_onPictureTaken);
-            frontCameraRestartPreviewOnPictureTaken =
-                    mActivity.getResources().getBoolean(R.bool.front_camera_restart_preview_onPictureTaken);
-
-            CameraInfo info = CameraHolder.instance().getCameraInfo()[mCameraId];
-            if ((info.facing == CameraInfo.CAMERA_FACING_BACK
-                    && backCameraRestartPreviewOnPictureTaken && (mCameraState != LONGSHOT))
-                    || (info.facing == CameraInfo.CAMERA_FACING_FRONT
-                    && frontCameraRestartPreviewOnPictureTaken && (mCameraState != LONGSHOT))) {
-                needRestartPreview = true;
-            }
-
-            if (needRestartPreview) {
-                Log.d(TAG, "JpegPictureCallback: needRestartPreview");
-                mRestartPreview = true;
-                setupPreview();
-                if (CameraUtil.FOCUS_MODE_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))
-                        || CameraUtil.FOCUS_MODE_MW_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))) {
-                    mCameraDevice.cancelAutoFocus();
-                }
-            } else if (((mCameraState != LONGSHOT) && (mReceivedSnapNum == mBurstSnapNum))
-                        || isLongshotDone()){
-                mFocusManager.restartTouchFocusTimer();
-                if (CameraUtil.FOCUS_MODE_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))
-                        || CameraUtil.FOCUS_MODE_MW_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))) {
-                    mCameraDevice.cancelAutoFocus();
-                }
-                if (!mIsImageCaptureIntent) {
-                    setCameraState(IDLE);
-                }
-                startFaceDetection();
-            }
-
             mLastPhotoTakenWithRefocus = mRefocus;
             if (mRefocus) {
                 final String[] NAMES = { "00.jpg", "01.jpg", "02.jpg", "03.jpg",
@@ -1408,6 +1363,51 @@ public class PhotoModule extends BaseModule<PhotoUI> implements
                 }
             }
             if (!mRefocus || (mRefocus && mReceivedSnapNum == 7)) {
+                boolean needRestartPreview = !mIsImageCaptureIntent
+                        && !mPreviewRestartSupport
+                        && (mCameraState != LONGSHOT)
+                        && (mSnapshotMode != Camera.CAMERA_SUPPORT_MODE_ZSL)
+                        && ((mReceivedSnapNum == mBurstSnapNum) && (mCameraState != LONGSHOT));
+                
+                needRestartPreview |= (isLongshotDone() && !mFocusManager.isZslEnabled());
+                needRestartPreview |= mLgeHdrMode && (mCameraState != LONGSHOT);
+                
+                boolean backCameraRestartPreviewOnPictureTaken = false;
+                boolean frontCameraRestartPreviewOnPictureTaken = false;
+                backCameraRestartPreviewOnPictureTaken =
+                        mActivity.getResources().getBoolean(R.bool.back_camera_restart_preview_onPictureTaken);
+                frontCameraRestartPreviewOnPictureTaken =
+                        mActivity.getResources().getBoolean(R.bool.front_camera_restart_preview_onPictureTaken);
+                
+                CameraInfo info = CameraHolder.instance().getCameraInfo()[mCameraId];
+                if ((info.facing == CameraInfo.CAMERA_FACING_BACK
+                        && backCameraRestartPreviewOnPictureTaken && (mCameraState != LONGSHOT))
+                        || (info.facing == CameraInfo.CAMERA_FACING_FRONT
+                        && frontCameraRestartPreviewOnPictureTaken && (mCameraState != LONGSHOT))) {
+                    needRestartPreview = true;
+                }
+                
+                if (needRestartPreview) {
+                    Log.d(TAG, "JpegPictureCallback: needRestartPreview");
+                    mRestartPreview = true;
+                    setupPreview();
+                    if (CameraUtil.FOCUS_MODE_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))
+                            || CameraUtil.FOCUS_MODE_MW_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))) {
+                        mCameraDevice.cancelAutoFocus();
+                    }
+                } else if (((mCameraState != LONGSHOT) && (mReceivedSnapNum == mBurstSnapNum))
+                            || isLongshotDone()){
+                    mFocusManager.restartTouchFocusTimer();
+                    if (CameraUtil.FOCUS_MODE_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))
+                            || CameraUtil.FOCUS_MODE_MW_CONTINUOUS_PICTURE.equals(mFocusManager.getFocusMode(false))) {
+                        mCameraDevice.cancelAutoFocus();
+                    }
+                    if (!mIsImageCaptureIntent) {
+                        setCameraState(IDLE);
+                    }
+                    startFaceDetection();
+                }
+
                 int orientation = Exif.getOrientation(exif);
                 if(mCameraId == CameraHolder.instance().getFrontCameraId()) {
                     IconListPreference selfieMirrorPref = (IconListPreference) mPreferenceGroup
