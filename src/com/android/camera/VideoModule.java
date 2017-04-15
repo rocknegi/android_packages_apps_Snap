@@ -467,7 +467,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
                 }
 
                 case SET_VIDEO_UI_PARAMS: {
-                    setCameraParameters(UPDATE_PARAM_PREFERENCE);
+                    setCameraParameters(UPDATE_PARAM_ALL);
                     break;
                 }
 
