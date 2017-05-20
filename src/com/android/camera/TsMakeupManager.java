@@ -188,6 +188,7 @@ public class TsMakeupManager implements OnSeekBarChangeListener {
         mMakeupUIStatus = MAKEUP_UI_STATUS_OFF;
         mMakeupLayoutRoot.setVisibility(View.GONE);
         mMakeupLayoutRoot.removeAllViews();
+        mMakeupLayoutRoot.bringToFront();
         if(mMakeupSingleRoot != null) {
             mMakeupSingleRoot.removeAllViews();
             mMakeupSingleRoot = null;
